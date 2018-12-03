@@ -5,16 +5,18 @@
     <title>Thymeleaf app</title>
 </head>
 <body>
-<h1>Contact list</h1>
+<h1 th:text="#{contact.list.title}">Contact list</h1>
 
 <a th:href="@{/createContact}">Create</a>
 <table>
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Last name</th>
-        <th>Description</th>
-        <th>Status</th>
+        <!--// forced for any translation keys you have created-->
+        <!-- # is for specific system fields, for custom errors-->
+        <th th:text="#{contact.name}">Name</th>
+        <th th:text="#{contact.lastname}">Last name</th>
+        <th th:text="#{contact.description}">Description</th>
+        <th th:text="#{contact.status}">Status</th>
         <th>*</th>
     </tr>
     </thead>
@@ -23,11 +25,11 @@
         <td th:text="${contact.name}"></td>
         <td th:text="${contact.lastName}"></td>
         <td th:text="${contact.description}"></td>
-        <td th:switch="${contact.status.name()}">
-            <span th:case="'ACTIVE'" th:text="Active"></span>
-            <span th:case="'DISABLED'" th:text="Disabled"></span>
-            <span th:case="'DELETED'" th:text="Deleted"></span>
-        </td>
+
+        <!--// dynamic translation using ENUM-->
+        <!-- accessing the variable using the $ symbol.-->
+        <!-- this replaces the previous switch statement-->
+        <td th:text="#{'contact.status.value.'+ ${contact.status.name()}}">Divorced status</td>
         <td>
             <a th:href="@{/view(id=${contact.id})}">View</a>
             <a th:href="@{/editContact/{id}(id=${contact.id})}">Edit</a>
